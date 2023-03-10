@@ -17,7 +17,13 @@ export default async function userCheck(
         email: "michaelt.freno@gmail.com",
       },
     ],
-    htmlContent: `<html><head></head><body><div>Request Name: ${req.body.name}</div><div>Request Email: ${req.body.email}</div><div>Request Message: ${req.body.message}</div></body></html>`,
+    htmlContent: `<html><head></head><body><div>Request Name: ${
+      req.query.name as string
+    }</div><div>Request Email: ${
+      req.query.email as string
+    }</div><div>Request Message: ${
+      req.query.message as string
+    }</div></body></html>`,
     subject: `Website Contact Request`,
   };
   const response = await fetch(apiUrl, {

@@ -1,10 +1,10 @@
 import { type NextPage } from "next";
 import Head from "next/head";
-import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { type FormEvent, useEffect, useRef, useState } from "react";
 import { Cormorant_Garamond, Josefin_Sans } from "@next/font/google";
 import Chevron from "@/icons/chevron";
 import { Transition } from "@headlessui/react";
+import Image from "next/image";
 
 const corm = Cormorant_Garamond({ weight: "300", subsets: ["latin"] });
 const jose = Josefin_Sans({ weight: "300", subsets: ["latin"] });
@@ -22,40 +22,18 @@ const Home: NextPage = () => {
   const messageRef = useRef<HTMLTextAreaElement>(null);
   const [sendRes, setSendRes] = useState("");
 
-  useEffect(() => {
-    const handleClick = (e: any) => {
-      e.preventDefault();
-      document.querySelector(e.target.getAttribute("href")).scrollIntoView({
-        behavior: "smooth",
-      });
-    };
-
-    const anchors = document.querySelectorAll('a[href^="#"]');
-    anchors.forEach((anchor) => {
-      anchor.addEventListener("click", handleClick);
-    });
-
-    return () => {
-      anchors.forEach((anchor) => {
-        anchor.removeEventListener("click", handleClick);
-      });
-    };
-  }, []);
-
-  const sendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
+  const sendMessage = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (nameRef.current && emailRef.current && messageRef.current) {
-      const response = await fetch("/api/email_send", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: nameRef.current.value,
-          email: emailRef.current.value,
-          message: messageRef.current.value,
-        }),
-      });
+      const response = await fetch(
+        `/api/email_send?name=${nameRef.current.value}&email=${emailRef.current.value}&message=${messageRef.current.value}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       if (response.ok) {
         setSendRes(
           "Email sent successfully! We will get back to you as soon as possible."
@@ -74,9 +52,7 @@ const Home: NextPage = () => {
   };
 
   useEffect(() => {
-    let intervalId: NodeJS.Timeout;
-
-    intervalId = setInterval(nextImage, 8000);
+    const intervalId = setInterval(nextImage, 8000);
 
     return () => {
       clearInterval(intervalId);
@@ -112,13 +88,20 @@ const Home: NextPage = () => {
           className="fixed top-0 flex h-16 w-screen justify-between bg-gradient-to-b from-white to-transparent"
         >
           <div className="my-auto flex justify-start pl-4 text-xl">
-            <img src="/cropped-sycamore.png" className="h-12 w-12" />
+            <Image
+              src="/cropped-sycamore.png"
+              className="h-12 w-12"
+              alt={"sycamore-logo"}
+              width={48}
+              height={48}
+            />
             <div className="my-auto pl-4">Sycamore Hill</div>
           </div>
           <div className="my-auto justify-end">
             <ul className="flex">
               <li className="px-4">
                 <a
+                  id="contact-link"
                   href="#contact"
                   className="underline-offset-4 hover:underline"
                 >
@@ -148,7 +131,7 @@ const Home: NextPage = () => {
           >
             <div
               className={`absolute z-50 mt-36 pl-36 italic ${
-                currentIndex === 0 ? "text-white" : null
+                currentIndex === 0 ? "text-white" : ""
               } text-4xl`}
             >
               {textAccompaniment[currentIndex]}
@@ -202,11 +185,12 @@ const Home: NextPage = () => {
         </h2>
         <div className="animate-up-down m-4 my-auto flex min-h-fit w-fit rounded-xl bg-white shadow-lg">
           <div className="">
-            <img
+            <Image
               src="/from-street.jpg"
               className="rounded-l-xl"
               height={240}
               width={240}
+              alt={"street-view"}
             />
           </div>
           <address className="flex w-48 items-center justify-center px-4">
@@ -216,6 +200,7 @@ const Home: NextPage = () => {
         <div className="flex justify-center pt-8">
           <div className="lg my-auto w-11/12 rounded-lg bg-white p-4 text-black shadow-lg sm:w-5/6 md:w-3/4 lg:w-2/3">
             <div className="text-center text-2xl">Contact Us</div>
+            {/* eslint-disable-next-line @typescript-eslint/no-misused-promises */}
             <form onSubmit={sendMessage}>
               <div className="flex flex-col justify-evenly sm:flex-row">
                 <div className="flex flex-col text-center">
