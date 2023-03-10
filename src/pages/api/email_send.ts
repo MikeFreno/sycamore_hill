@@ -14,7 +14,7 @@ export default async function userCheck(
     },
     to: [
       {
-        email: "michaelt.freno@gmail.com",
+        email: "bob@sycamorehillnj.com",
       },
     ],
     htmlContent: `<html><head></head><body><div>Request Name: ${
