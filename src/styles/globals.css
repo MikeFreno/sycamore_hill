@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.custom-shape-divider-bottom-1678372099 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1678372099 svg {
+  position: relative;
+  display: block;
+  width: calc(175% + 1.3px);
+  height: 15vh;
+}
+
+.custom-shape-divider-bottom-1678372099 .shape-fill {
+  fill: #fecdd3;
+}
+@keyframes animateUpDown {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.animate-up-down {
+  animation: animateUpDown 5s ease-in-out infinite;
+}
