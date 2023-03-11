@@ -1,3 +1,2 @@
-# Website for Sycamore Hill
-- A vineyard
-built with nextjs & tailwind
+# Website for Sycamore Hill Vineyard
+- built with nextjs & tailwind
